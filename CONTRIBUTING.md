@@ -16,7 +16,7 @@ should keep the code easy to read and the scope tight.
 You need [uv](https://docs.astral.sh/uv/) and git.
 
 ```sh
-git clone <repo-url> telar
+git clone https://github.com/Alanss26/telar.git
 cd telar
 make install    # uv sync + pre-commit install
 make check      # everything CI runs: lint, format check, mypy, tests

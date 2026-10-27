@@ -22,7 +22,7 @@ No telemetry, no accounts, no network access: it only reads and writes files on 
 Telar needs Python 3.11 or newer. It isn't on PyPI yet, so install it from a clone:
 
 ```sh
-git clone <repo-url> telar
+git clone https://github.com/Alanss26/telar.git
 cd telar
 uv tool install .      # or: pipx install .
 ```
