@@ -1,3 +1,4 @@
+import re
 from pathlib import Path
 
 from typer.testing import CliRunner
@@ -6,6 +7,8 @@ from telar import __version__
 from telar.cli import app
 
 runner = CliRunner()
+
+ANSI_CODES = re.compile(r"\x1b\[[;?0-9]*[a-zA-Z]")
 
 
 def test_version_flag() -> None:
@@ -49,4 +52,5 @@ def test_dev_command_fails_fast_when_the_first_build_fails(tmp_path: Path) -> No
 
 def test_dev_command_has_a_poll_flag() -> None:
     result = runner.invoke(app, ["dev", "--help"])
-    assert "--poll" in result.output
+    # Rich colors the help on GitHub Actions even without a terminal; drop the ANSI codes.
+    assert "--poll" in ANSI_CODES.sub("", result.output)
