@@ -8,6 +8,7 @@ from telar import __version__
 from telar.build import build as build_site
 from telar.devserver import DevServer
 from telar.errors import SiteError
+from telar.scaffold import create_site
 
 app = typer.Typer(
     help="Turn a folder of Markdown files into a static website.",
@@ -39,6 +40,21 @@ def main(
     ] = False,
 ) -> None:
     """Telar: Markdown in, HTML out."""
+
+
+@app.command()
+def init(
+    directory: Annotated[Path, typer.Argument(help="Where to create the site.")],
+) -> None:
+    """Create a new site with example content."""
+    try:
+        files = create_site(directory)
+    except SiteError as exc:
+        _fail(exc)
+    typer.echo(f"Created {len(files)} files in {directory}\n")
+    typer.echo("Next steps:")
+    typer.echo(f"  cd {directory}")
+    typer.echo("  telar dev")
 
 
 @app.command()

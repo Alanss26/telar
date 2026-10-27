@@ -1,0 +1,11 @@
+title = "My Telar Site"
+description = "A small site built with Telar."
+author = "Your Name"
+language = "en"
+# Full URL where the site will be published, e.g. "https://example.com".
+# Only used for canonical links, so it's fine to leave it empty for now.
+base_url = ""
+
+# Anything under [params] is available in templates as site.params.
+[params]
+github = "https://github.com/"

@@ -1,0 +1,5 @@
+<li>
+  <a href="{{ post.url }}">{{ post.title }}</a>
+  {% include "partials/post-meta.html" %}
+  {% if post.extra.get("summary") %}<p>{{ post.extra.summary }}</p>{% endif %}
+</li>

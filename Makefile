@@ -1,4 +1,4 @@
-.PHONY: install test lint format typecheck check
+.PHONY: install test lint format typecheck check example
 
 install:
 	uv sync
@@ -19,3 +19,8 @@ typecheck:
 	uv run mypy
 
 check: lint typecheck test
+
+# examples/basic is a copy of the starter site; run this after changing src/telar/starter/.
+example:
+	rm -rf examples/basic
+	uv run telar init examples/basic

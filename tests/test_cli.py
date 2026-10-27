@@ -14,6 +14,19 @@ def test_version_flag() -> None:
     assert __version__ in result.output
 
 
+def test_init_command(tmp_path: Path) -> None:
+    result = runner.invoke(app, ["init", str(tmp_path / "mysite")])
+    assert result.exit_code == 0
+    assert "telar dev" in result.output
+    assert (tmp_path / "mysite" / "site.toml").is_file()
+
+
+def test_init_command_refuses_non_empty_folder(site: Path) -> None:
+    result = runner.invoke(app, ["init", str(site)])
+    assert result.exit_code == 1
+    assert "not empty" in result.output
+
+
 def test_build_command(site: Path) -> None:
     result = runner.invoke(app, ["build", str(site)])
     assert result.exit_code == 0

@@ -1,0 +1,15 @@
+{% extends "layouts/base.html" %}
+
+{% block main %}
+<section class="intro">
+  {{ page.content }}
+</section>
+
+<h2>Latest posts</h2>
+<ul class="post-list">
+  {% for post in collections.get("blog", [])[:3] %}
+  {% include "partials/post-item.html" %}
+  {% endfor %}
+</ul>
+<p><a href="/blog/">All posts →</a></p>
+{% endblock %}

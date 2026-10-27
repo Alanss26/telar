@@ -1,0 +1,13 @@
+{% extends "layouts/base.html" %}
+
+{% block main %}
+<h1>{{ page.title }}</h1>
+{{ page.content }}
+<ul class="post-list">
+  {% for post in collections[page.collection] %}
+  {% include "partials/post-item.html" %}
+  {% else %}
+  <li>Nothing here yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}
