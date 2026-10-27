@@ -42,6 +42,10 @@ def test_groups_by_folder_and_skips_root_and_listing_pages() -> None:
     }
 
 
+def test_listing_page_creates_an_empty_collection() -> None:
+    assert group_collections([make_page("news", "news", is_listing=True)]) == {"news": []}
+
+
 def test_sorts_newest_first_with_undated_last() -> None:
     pages = [
         make_page("old", "blog", datetime.date(2023, 1, 1)),

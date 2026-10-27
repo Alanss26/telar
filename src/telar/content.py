@@ -43,6 +43,7 @@ class Page:
     body: str  # raw Markdown, without the front matter
     collection: str | None
     is_listing: bool  # an _index.md that lists its collection
+    content: str = ""  # rendered HTML, filled in by the build
 
 
 def route_for(relative: Path) -> tuple[str, Path]:

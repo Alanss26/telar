@@ -8,9 +8,13 @@ def group_collections(pages: list[Page]) -> dict[str, list[Page]]:
     """
     groups: dict[str, list[Page]] = {}
     for page in pages:
-        if page.collection is None or page.is_listing:
+        if page.collection is None:
             continue
-        groups.setdefault(page.collection, []).append(page)
+        items = groups.setdefault(page.collection, [])
+        # A listing page still creates its collection, so its template can loop over it
+        # even before the first post exists.
+        if not page.is_listing:
+            items.append(page)
 
     for items in groups.values():
         items.sort(key=_newest_first)
