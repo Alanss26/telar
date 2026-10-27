@@ -2,6 +2,20 @@
 
 What comes after v0.1. The full, prioritized list of features lands with the v0.1 docs.
 
+## Features
+
+### Slugify file names in URLs
+
+Right now file and folder names go into the URL as they are: `content/blog/Mi Primer Post.md`
+becomes `/blog/Mi Primer Post/`. Turn them into slugs instead: lowercase, accents stripped
+(`á → a`, `ñ → n`), spaces and punctuation replaced by `-` → `/blog/mi-primer-post/`.
+
+- **Difficulty:** low. `unicodedata.normalize("NFKD", ...)` handles accents without new
+  dependencies. An optional `slug:` front matter field could override the generated one.
+- **Touches:** `content.py` (`route_for`), its tests and the routes ADR.
+- **Watch out:** it changes existing URLs, so already published links would break. Ship it with
+  a note in the changelog, or behind a `site.toml` option at first.
+
 ## Pending chores
 
 ### Move the working copy into the WSL filesystem
