@@ -4,7 +4,7 @@ from pydantic import ValidationError
 
 
 class SiteError(Exception):
-    """Something in the user's site is wrong: config, content or templates."""
+    """A problem the user can fix: bad config, content or templates, a busy port..."""
 
     def __init__(self, message: str, path: Path | None = None, line: int | None = None) -> None:
         super().__init__(message)

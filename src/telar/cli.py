@@ -6,6 +6,7 @@ import typer
 
 from telar import __version__
 from telar.build import build as build_site
+from telar.devserver import DevServer
 from telar.errors import SiteError
 
 app = typer.Typer(
@@ -56,3 +57,31 @@ def build(
         _fail(exc)
     elapsed = time.perf_counter() - started
     typer.echo(f"Built {result.page_count} pages in {elapsed:.2f}s -> {result.output_dir}")
+
+
+@app.command()
+def dev(
+    site_dir: Annotated[Path, typer.Argument(help="Folder that contains site.toml.")] = Path("."),
+    host: Annotated[str, typer.Option(help="Address to listen on.")] = "127.0.0.1",
+    port: Annotated[int, typer.Option("--port", "-p", help="Port to listen on.")] = 8000,
+    poll: Annotated[
+        bool,
+        typer.Option(
+            "--poll",
+            help="Check for changes by polling. Use it if saves aren't picked up, "
+            "e.g. a repo under /mnt/c in WSL edited from Windows.",
+        ),
+    ] = False,
+) -> None:
+    """Serve the site locally and reload the browser when files change."""
+    try:
+        server = DevServer(site_dir, host, port, poll=poll)
+    except SiteError as exc:
+        _fail(exc)
+
+    mode = "polling" if poll else "watching"
+    typer.echo(f"Serving {server.output_dir} at {server.url} ({mode} for changes, Ctrl+C to stop)")
+    try:
+        server.serve_forever()
+    except KeyboardInterrupt:
+        typer.echo("\nStopped.")
