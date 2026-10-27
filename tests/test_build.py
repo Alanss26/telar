@@ -13,7 +13,8 @@ def read(path: Path) -> str:
 
 def test_build_writes_pages_and_static_files(site: Path) -> None:
     result = build(site)
-    assert result.output_dir == site / "dist"
+    # build() resolves paths; on macOS tmp_path lives under a symlink (/var -> /private/var).
+    assert result.output_dir == (site / "dist").resolve()
     assert result.page_count == 4
     assert list_files(result.output_dir) == [
         Path("blog/first/index.html"),
@@ -40,7 +41,7 @@ def test_listing_shows_posts_newest_first(site: Path) -> None:
 
 def test_output_dir_can_be_overridden(site: Path, tmp_path: Path) -> None:
     result = build(site, tmp_path / "public")
-    assert result.output_dir == tmp_path / "public"
+    assert result.output_dir == (tmp_path / "public").resolve()
     assert (tmp_path / "public" / "index.html").is_file()
 
 
